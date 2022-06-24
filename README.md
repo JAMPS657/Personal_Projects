@@ -4,7 +4,7 @@
 This repository hold all of my personal projects that I've done over the years and they're binned 
 in appropriate categories.
 
-[Personal Projects]([../Personal_Programming_Projects](https://github.com/JAMPS657/Personal_Projects)/README.md)
+[Personal Programming Projects]([../Personal_Programming_Projects](https://github.com/JAMPS657/Personal_Projects)/README.md)
 
 ## Background
 My educational journey began as an aspiring scientist, of the biological and chemical variety. As an undergraduate at the University of Colorado at Boulder, I majored in various branches of Chemistry and Biology. It wasn't until later in my undergraduate program that I had the opportunity to utilize software and programming languages for various experiments.  Fostering that interest in programming has led me to where I am today, with the desire to become a different kind of scientist.
