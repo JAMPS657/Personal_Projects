@@ -24,4 +24,4 @@ Some personal interests of mine
 ## Contact Me
 **School Email:** Andrew.Otis@du.edu
 
-**LinkedIn:**[Andrew J. Otis]([https://pages.github.com/](https://www.linkedin.com/in/andrew-james-otis/))
+**LinkedIn:** [Andrew J. Otis](https://www.linkedin.com/in/andrew-james-otis/)
