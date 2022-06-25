@@ -1,7 +1,10 @@
 # Programming Projects
-1.
-2.
-3.
+Python
+1. Analysis of COVID Immunization in Colorado
+2. Simple Text Adventure
+Rstudio
+1. Laptop Market Price in Relation Specifications
+2. Employmer Advertisement Trends in Chicago 
 
 ## About Me
 A characteristic I value and appreciate is the ability to convey a story, which can come in many forms. Whether it's a videogame being an expression of imagination, an anime acting as a commentary on the historical context of what it means to be a man in Japan, or simply sharing an experience as an expression of community.
