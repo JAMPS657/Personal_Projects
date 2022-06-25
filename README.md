@@ -1,8 +1,9 @@
 # Andrew J. Otis - Projects Portfolio
 
 ## Index
-This repository hold all of my personal projects that I've done over the years and they're binned 
-in appropriate categories.
+This repository holds personal projects that I've done over the years. 
+
+You can access them via the following link,
 
 [Programming Projects](https://github.com/JAMPS657/Personal_Projects/tree/main/Personal%20Programming%20Projects)
 
