@@ -2,6 +2,8 @@
 Python
 1. Analysis of COVID Immunization in Colorado
 2. Simple Text Adventure
+
+
 Rstudio
 1. Laptop Market Price in Relation Specifications
 2. Employmer Advertisement Trends in Chicago 
