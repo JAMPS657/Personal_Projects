@@ -5,7 +5,7 @@ Python
 3. Simple Text Game
 
 Rstudio
-1. Laptop Market Price in Relation Specifications
+1. Bayesian Model for Laptop Market Price in Relation Specifications
 2. Employer Advertisement Trends in Chicago 
 
 ## About Me
