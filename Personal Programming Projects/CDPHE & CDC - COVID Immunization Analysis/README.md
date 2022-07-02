@@ -55,20 +55,26 @@ To take COVID-19 data related to vaccination rates for the Colorado (state and c
 1. CDC_vax.py (Primary dataset)
 
 >Plot1: Vaccinated population by Date
+![](Images/CDC_vax_plot1.png)
 
 >Plot2: Vaccinated population by County
+![](Images/CDC_vax_plot2.png)
 
 2. CDPHE_demo.py (Secondary dataset)
 
 >Plot1: Income by County
+![](Images/CDPHE_demo_plot1.png)
 
 >Plot2: Education attainment by County
+![](Images/CDPHE_demo_plot2.png)
 
 3. Vax_demo.py (combined overall analysis)
 
 >Plot1: Vaccination complete rate & Income by County
+![](Images/vax+demo_plot1.png)
 
 >Plot2: Vaccination complete rate & Education attainment by County
+![](Images/vax+demo_plot2.png)
 
 # Description of program
 
