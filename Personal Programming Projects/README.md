@@ -21,6 +21,6 @@ Some personal interests of mine
 - Content exploration on YouTube, for the purposes of developing a general idea on a topic or learning about different perspectives on the same topic
 
 ## Contact Me
-**School Email:** Andrew.Otis@du.edu
+**Email:** Andrew.Otis@du.edu
 
 **LinkedIn:** [Andrew J. Otis](https://www.linkedin.com/in/andrew-james-otis/)
