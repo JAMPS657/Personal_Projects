@@ -23,7 +23,7 @@ The game was developed using Python
 
 1. View the Code with the following [link](https://github.com/JAMPS657/Personal_Projects/blob/main/Personal%20Programming%20Projects/Simple%20Text%20Adventure%20Game/Greek%20Mythology%20Inspired%20Text%20Game.py)
 
-2. Copy the code into a virtual environment of your choosing (e.g. Pycharm, VisualStudio, etc.)
+2. Migrate the code into a virtual environment of your choosing (e.g. Pycharm, VisualStudio, etc.)
 
 3. Run the program to play and enjoy!
 
