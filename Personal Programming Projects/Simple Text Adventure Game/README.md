@@ -15,5 +15,14 @@ With the goal of adding some variety to user experience, a list is used as data 
 a non-viewable player inventory. Additionally a coin toss sub-game is utilized in the final stage
 of the game.
 
+The game was developed using Python
 
 # How to Run
+
+1. View the Code
+Code can be viewed with the following [link](https://github.com/JAMPS657/Personal_Projects/blob/main/Personal%20Programming%20Projects/Simple%20Text%20Adventure%20Game/Greek%20Mythology%20Inspired%20Text%20Game.py)
+
+2. Copy the code into a virtual environment of your choosing (e.g. Pycharm, VisualStudio, etc.)
+
+3. Run the program to play and enjoy!
+
