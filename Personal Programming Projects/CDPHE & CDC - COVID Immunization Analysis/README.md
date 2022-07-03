@@ -43,7 +43,7 @@ Community Survey representing the percent of the population (Age 25+)
 
 >URL: [https://data-cdphe.opendata.arcgis.com/datasets/CDPHE::educational-attainment-census-tracts/about](https://data-cdphe.opendata.arcgis.com/datasets/CDPHE::educational-attainment-census-tracts/about)
 
-## Analysis question
+## Research Question
 
 To take COVID-19 data related to vaccination rates for the Colorado (state and county level), to propose possible relationships between vaccination trends vs demographic determinants.
 
