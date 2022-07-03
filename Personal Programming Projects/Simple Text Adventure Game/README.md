@@ -27,3 +27,7 @@ The game was developed using Python
 
 3. Run the program to play and enjoy!
 
+## Contact Me
+**Email:** Andrew.Otis@du.edu
+
+**LinkedIn:** [Andrew J. Otis](https://www.linkedin.com/in/andrew-james-otis/)
