@@ -180,7 +180,12 @@ No required argument. 'print' the records on screen is the default built-in comm
 4. unittest
 
 >usage: python unittest_CDC.py
+
 >usage: python unittest_CDPHE.py
+
+>View the [CDC module unittest code](https://github.com/JAMPS657/Personal_Projects/blob/main/Personal%20Programming%20Projects/CDPHE%20%26%20CDC%20-%20COVID%20Immunization%20Analysis/unittests/test_CDC_draft.py)
+
+>View the [CDPHE module unittest code](https://github.com/JAMPS657/Personal_Projects/blob/main/Personal%20Programming%20Projects/CDPHE%20%26%20CDC%20-%20COVID%20Immunization%20Analysis/unittests/test_CDPHE_draft.py)
 
 ## Contact Me
 **Email:** Andrew.Otis@du.edu
