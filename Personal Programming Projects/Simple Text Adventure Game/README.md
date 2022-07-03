@@ -1,3 +1,5 @@
+# Index
+Project Selection [here](https://github.com/JAMPS657/Personal_Projects/tree/main/Personal%20Programming%20Projects)
 
 # Background
 The project is a simulated text-adventure maze game. The theme takes light inspiration from Greek
