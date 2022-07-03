@@ -4,7 +4,7 @@ Project Selection [here](https://github.com/JAMPS657/Personal_Projects/tree/main
 # Analysis of COVID Immunization in Colorado Overview
 The project merges modules that were created to analyze their respective COVID data sets. 
 
-# Project members
+## Project members
 
 Andrew J. Otis and Sunwoo Park
 
