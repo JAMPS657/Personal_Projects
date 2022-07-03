@@ -14,3 +14,6 @@ to provide the goal user experience. Strings throughout are manipulated in vario
 With the goal of adding some variety to user experience, a list is used as data storage to simulate
 a non-viewable player inventory. Additionally a coin toss sub-game is utilized in the final stage
 of the game.
+
+
+# How to Run
