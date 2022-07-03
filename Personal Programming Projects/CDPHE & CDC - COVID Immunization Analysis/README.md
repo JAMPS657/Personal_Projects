@@ -187,3 +187,8 @@ No required argument. 'print' the records on screen is the default built-in comm
 
 >usage: python unittest_CDC.py
 >usage: python unittest_CDPHE.py
+
+## Contact Me
+**Email:** Andrew.Otis@du.edu
+
+**LinkedIn:** [Andrew J. Otis](https://www.linkedin.com/in/andrew-james-otis/)
