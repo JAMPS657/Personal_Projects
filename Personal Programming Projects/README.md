@@ -5,7 +5,7 @@ Python Projects
 3. [Text Adventure Game](https://github.com/JAMPS657/Personal_Projects/tree/main/Personal%20Programming%20Projects/Simple%20Text%20Adventure%20Game)
 
 R Projects
-1. Bayesian Model for Laptop Market Price in Relation Specifications
+1. Bayesian Model for Laptop Market Price in Relation to Specifications
 2. Employer Advertisement Trends in Chicago 
 
 ## About Me
