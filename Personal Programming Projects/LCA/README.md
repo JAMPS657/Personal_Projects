@@ -1,4 +1,4 @@
-# Latent Class Analysis for Data Representation
+# Latent Class Analysis for Data Categorization
 ## Andrew J. Otis & Hsing Yu Chen
 
 
