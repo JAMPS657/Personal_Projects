@@ -1,6 +1,8 @@
+# Index
+Project Selection [here](https://github.com/JAMPS657/Personal_Projects/tree/main/Personal%20Programming%20Projects)
+
 # Latent Class Analysis for Data Categorization
 ## Andrew J. Otis & Hsing Yu Chen
-
 
 ## Summary
 Our group utilizes Latent Class Analysis(LCA) as a statistical model to determine if distinct unobservable classes exist within a dataset utilized in a study by Bertrand and Mullainathan(2004). 
