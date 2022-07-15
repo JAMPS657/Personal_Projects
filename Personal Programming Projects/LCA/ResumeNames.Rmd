@@ -1,0 +1,75 @@
+---
+title: "LCA_"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r}
+library(poLCA)
+ResumeNames <- read.table(file="ResumeNames.csv", header=T, as.is=T, sep=",")
+
+vars <- c("equal", "reqeduce", "reqcomp", "reqorg","call","gender","ethnicity")
+for (i in 1:length(vars)){
+	ResumeNames[,vars[i]] <- ResumeNames[,vars[i]]+1
+}
+```
+
+
+```{r}
+f1 <- as.formula(cbind(equal, reqeduce, reqcomp, reqorg, call, gender, ethnicity)~1)
+LCA2 <- poLCA(f1, data=ResumeNames, nclass=2)
+
+#slide13:
+plot(LCA2)
+
+```
+
+```{r}
+#slide14:
+#LCA3 is 3 classes result, and LCA2 is 2 classes result.
+LCA3 <- poLCA(f1, data=ResumeNames, nclass=3)
+```
+
+```{r}
+#slide15:
+LCA3 <- poLCA(f1, data=ResumeNames, nclass=3, maxiter=3000)
+LCA3 <- poLCA(f1, data=ResumeNames, nclass=3, nrep=5)
+LCA3 <- poLCA(f1, data=ResumeNames, nclass=3, maxiter=3000, nrep=5)
+
+LCA4 <- poLCA(f1, data=ResumeNames, nclass=4, maxiter=3000, nrep=5)
+#LCA4 <- poLCA(f1, data=samhsa2015, nclass=4, maxiter=5000, nrep=5)
+
+LCA5 <- poLCA(f1, data=ResumeNames, nclass=5, maxiter=5000, nrep=10)
+```
+
+```{r}
+### with covariate - 'offer pay assistance' 
+#slide19:
+f2<- as.formula(cbind(equal, reqeduce, reqcomp, reqorg, call, gender, ethnicity)~payasst)
+```
+
+```{r}
+#set.seed(4589)
+LCA3c <- poLCA(f2, data=ResumeNames, nclass=3, maxiter=5000, nrep=5)
+
+```
+
+```{r}
+#predicted class membership is in:
+LCA3$predclass[1:30]
+```
+
+```{r}
+#could be used as another variable (part of the data):
+ResumeNames$LCAf5 <- LCA3$predclass
+```
+
