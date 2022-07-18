@@ -5,6 +5,7 @@ Note:
 Did images for figures appear?
 
 No?
+
 Solution - refresh the page 
 
 # Analysis of COVID Immunization in Colorado Overview
