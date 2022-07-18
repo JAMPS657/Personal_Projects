@@ -8,7 +8,7 @@ No?
 
 Solution - refresh the page 
 
-# Analysis of COVID Immunization in Colorado Overview
+# Analysis of COVID-19 Immunization in Colorado Overview
 The project merges modules that were created to analyze their respective COVID data sets. 
 
 ## Project members
