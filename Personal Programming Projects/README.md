@@ -5,7 +5,7 @@ Python Projects
 3. [Text Adventure Game](https://github.com/JAMPS657/Personal_Projects/tree/main/Personal%20Programming%20Projects/Simple%20Text%20Adventure%20Game)
 
 R Projects
-1. Bayesian Model for Laptop Market Price in Relation to Specifications
+1. Bayesian Analysis for Developing a Predictive Model for Laptop Market Price in Relation to Market Specifications
 2. [Classification of Job Applicants Based on Employer Advertisements](https://github.com/JAMPS657/Personal_Projects/tree/main/Personal%20Programming%20Projects/LCA) 
 
 ## About Me
