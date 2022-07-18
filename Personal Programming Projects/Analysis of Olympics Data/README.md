@@ -33,7 +33,7 @@ displayed as the various analysis are run. This serves 2 purposes, the first is 
 from a coding perspective; but also to make the analysis logical for someone who is just seeing the results
 of the code being ran. Otherwise, it would appear that the program isn't doing anything at all.
 
-# !Important Caveat!: 
+## Important Caveat
 To have code run as expected, the following must be done
 "Ctrl+a" = to select everything THEN "Alt+shift+e" = to run code
 The instructions listed above will allow ALL figures to be viewable simultaneously
