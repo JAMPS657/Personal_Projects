@@ -15,10 +15,12 @@ The cross-sectional data was originally used as part of a larger study to aid re
 The data source has come cleaned in columns separating the types of responses in the data set. For LCA, it was decided that we would look at the columns “equal”=employer offers equal opportunity, “reqeduc”=education requirement, “reqcomp”=computer competency requirement, “reqorg”=organizational requirement, “ethnicity”=implied ethnicity based on the sound of name, and “call”=whether or not the applicant proceeded in the application process. The columns chosen are details regarding requirements of the job in question and a few person-centered details regarding the applicant.
 
 ### Table 1
+![](Images/Table_1.JPG)
 
 The isolated data then has responses transformed into 1’s and 0’s for probabilistic algorithms to run.  These responses may be binomial (i.e. only two outcomes) or multimodal(i.e. more than two outcomes
 
 ### Table 2
+![](Images/Table_2.JPG)
 
 We must now ask “does the data satisfy the requirements of LCA?”, this is important regarding the validity of our results.
 The Assumptions of LCA are as follows,
@@ -29,8 +31,11 @@ The Assumptions of LCA are as follows,
 The way our data is currently structured, we would meet the first two assumptions of LCA, however the data set fails to meet the final assumption of LCA. Due to a lack of company id present in responses, we cannot guarantee that responses in each class determined are independent of one another.  For example, one company having more than one ad or more than one resume being sent in response to the same ad. Therefore, the results cannot be considered valid.  For pedagogical purposes we continued with the analysis to demonstrate the process of LCA.
 
 ## Summary Statistics
+![](Images/Summary_Stats_1.JPG)
 
 ## Conclusion
+![](Images/Visuals_1.JPG)
+
 The LCA model chosen was on the basis of the Bayesian Information Criterion (BIC) for estimating how well a given LCA model would fit our dataset.
 
 BIC=kln(n)-2 ln⁡(L ̂ )
