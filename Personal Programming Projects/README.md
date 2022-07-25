@@ -6,7 +6,7 @@ Python Projects
 
 R Projects
 1. Bayes Regression a Predictive Model for Laptop Market Price in Relation to Market Specifications
-2. [Classification of Job Applicants Based on Employer Advertisements](https://github.com/JAMPS657/Personal_Projects/tree/main/Personal%20Programming%20Projects/LCA) 
+2. [Classification of Job Type Based on Applicant Response to Job Boards](https://github.com/JAMPS657/Personal_Projects/tree/main/Personal%20Programming%20Projects/LCA) 
 
 ## About Me
 A characteristic I value and appreciate is the ability to convey a story, which can come in many forms. Whether it's a videogame being an expression of imagination, an anime acting as a commentary on the historical context of what it means to be a man in Japan, or simply sharing an experience as an expression of community.
