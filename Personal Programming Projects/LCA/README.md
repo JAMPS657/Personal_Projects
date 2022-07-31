@@ -4,7 +4,7 @@ Project Selection [here](https://github.com/JAMPS657/Personal_Projects/tree/main
 # Latent Class Analysis for Data Categorization
 ## Andrew J. Otis & Hsing Yu Chen
 
-PowerPoint Presentation[here](https://github.com/JAMPS657/Personal_Projects/blob/main/Personal%20Programming%20Projects/LCA/PPT_presentation/Latent_Class_Analysis_Presentation(Carol%20and%20Andrew).pdf)
+PowerPoint Presentation [here](https://github.com/JAMPS657/Personal_Projects/blob/main/Personal%20Programming%20Projects/LCA/PPT_presentation/Latent_Class_Analysis_Presentation(Carol%20and%20Andrew).pdf)
 
 ## Summary
 Our group utilizes Latent Class Analysis(LCA) as a statistical model to determine if distinct unobservable classes exist within a dataset utilized in a study by Bertrand and Mullainathan(2004). 
