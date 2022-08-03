@@ -1,7 +1,7 @@
 # Andrew J. Otis - Projects Portfolio
 
 ## Index
-This repository holds personal projects that I've done over the years. 
+This repository holds projects that I've done over the years. 
 
 You can access them via the following link,
 
