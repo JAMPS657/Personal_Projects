@@ -12,7 +12,7 @@ You can access them via the following link,
 -----
 Personal Mission Statement:
 
-I'm seeking a professional environment where a good plan sets the foundation for a job well done. Where colleagues seek to improve one another through mutual respect, comradery, and hard work. I hope to be part of an experience that I can look back at with pride, for the work I've done and the people I've worked with.
+I'm seeking a professional environment where a well laid strategy sets the foundation for a job well done. Where colleagues seek to improve one another through mutual respect, comradery, and hard work. I hope to be part of an experience that I can look back at with pride, for the work I've done and the people I've worked with.
 
 -----
 
