@@ -1,0 +1,321 @@
+---
+title: "BayesR_withBrand"
+author: "Andrew J. Otis, Hsing Yu Chen"
+date: "5/26/2022"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(readxl)
+library(ggplot2)
+library(tidyverse)
+library(coda)
+library(rjags)
+library(fastDummies)
+```
+
+## Introduction
+
+```{r}
+Brand_Latest <- read_excel("Brand_Latest.xlsx")
+head(Brand_Latest)
+```
+
+The project is trying to find the factors of laptop that affecting the price. The full data set contain twenty variables and 896 data. In order to make the analysis more effective, we decided to aiming the possible affecting variables to "brand", "ram_gb", "ssd", and "hdd".
+
+For all columns, raw data were keep and we used the original numbers to do the analysis, the original orice were in Indonesian rupiah. Since we are not looking for a actual values, the price are not adjusted to US dollars. 
+
+
+## Convert the dataframe into numeric
+
+```{r}
+Brand_Latest$brand <- as.factor(Brand_Latest$brand)
+Brand_Latest$ram_gb <- as.factor(Brand_Latest$ram_gb)
+Brand_Latest$ssd <- as.factor(Brand_Latest$ssd)
+Brand_Latest$hdd <- as.factor(Brand_Latest$hdd)
+
+Brand_Latest$latest_price <- (Brand_Latest$latest_price)
+Brand_Latest$log.latest_price <- log(Brand_Latest$latest_price)
+
+sapply(Brand_Latest, class) 
+head(Brand_Latest)
+```
+
+
+## Exploring the data
+
+```{r}
+str(Brand_Latest)
+
+plot(Brand_Latest)
+
+plot(latest_price~brand, Brand_Latest)
+plot(log.latest_price~brand, Brand_Latest)
+
+ggplot(Brand_Latest, aes(x=brand)) +
+  geom_bar()
+ggplot(Brand_Latest, aes(x=ram_gb)) +
+  geom_bar()
+ggplot(Brand_Latest, aes(x=ssd)) +
+  geom_bar()
+ggplot(Brand_Latest, aes(x=hdd)) +
+  geom_bar()
+
+ggplot(Brand_Latest, aes(x=latest_price)) +
+  geom_histogram(bins = 50)
+ggplot(Brand_Latest, aes(x=log.latest_price)) +
+  geom_histogram(bins = 50)
+
+```
+
+When viewing the ggplot for the price variable, the raw data set seems to be a skewness distribution. Although the Bayesian analysis does not require a normal distribution data set, the log distribution is applied to make the result more reasonable. The ggplots for other factors, show the data set can be random collect that there is no biased data collection. 
+
+
+## Running an ordinary lineary regression
+
+```{r}
+data <- Brand_Latest %>% select(-c(latest_price))
+mod_0 <- lm(log.latest_price ~. , data = data)
+summary(mod_0)
+```
+
+The ordinary linear regression shows that for the ram_gb, ssd and hhd factors, most groups do affect the price. As for the brand factor, APPLE, ASUS and Lenovo are strongly affecting the price. Some of the brand like LIENWARE and Nokia, though they do achieve the significance level, they are only having less than five data. Thus, it might not be so much reliable to believe price are impacted by these brand. 
+
+
+```{r}
+#check if there is missing value
+any(is.na(Brand_Latest))
+
+mod1_string <- "model {
+  # prior 
+  beta0 ~ dnorm(mu0,tau0) 
+  beta.brand[1] <- 0
+  beta.brand[2] ~ dnorm(mu0,tau0)
+  beta.brand[3] ~ dnorm(mu0,tau0)
+  beta.brand[4] ~ dnorm(mu0,tau0)
+  beta.brand[5] ~ dnorm(mu0,tau0)
+  beta.brand[6] ~ dnorm(mu0,tau0)
+  beta.brand[7] ~ dnorm(mu0,tau0)
+  beta.brand[8] ~ dnorm(mu0,tau0)
+  beta.brand[9] ~ dnorm(mu0,tau0)
+  beta.brand[10] ~ dnorm(mu0,tau0)
+  beta.brand[11] ~ dnorm(mu0,tau0)
+  beta.brand[12] ~ dnorm(mu0,tau0)
+  beta.brand[13] ~ dnorm(mu0,tau0)
+  beta.brand[14] ~ dnorm(mu0,tau0)
+  beta.brand[15] ~ dnorm(mu0,tau0)
+  beta.brand[16] ~ dnorm(mu0,tau0)
+  beta.brand[17] ~ dnorm(mu0,tau0)
+  beta.brand[18] ~ dnorm(mu0,tau0)
+  beta.brand[19] ~ dnorm(mu0,tau0)
+  beta.ram_gb[1] <- 0
+  beta.ram_gb[2] ~ dnorm(mu0,tau0)
+  beta.ram_gb[3] ~ dnorm(mu0,tau0)
+  beta.ram_gb[4] ~ dnorm(mu0,tau0)
+  beta.ssd[1] <- 0
+  beta.ssd[2] ~ dnorm(mu0,tau0)
+  beta.ssd[3] ~ dnorm(mu0,tau0)
+  beta.ssd[4] ~ dnorm(mu0,tau0)
+  beta.ssd[5] ~ dnorm(mu0,tau0)
+  beta.ssd[6] ~ dnorm(mu0,tau0)
+  beta.ssd[7] ~ dnorm(mu0,tau0)
+  beta.ssd[8] ~ dnorm(mu0,tau0)
+  beta.hdd[1] <- 0
+  beta.hdd[2] ~ dnorm(mu0,tau0)
+  beta.hdd[3] ~ dnorm(mu0,tau0)
+  beta.hdd[4] ~ dnorm(mu0,tau0)
+  
+  for(i in 1:n){
+    #Likelihood
+    y[i] ~ dnorm(mu[i], tau)
+    mu[i] = beta0+ beta.ram_gb[ram_gb[i]] + 
+    beta.ssd[ssd[i]] + beta.hdd[hdd[i]]
+  }            
+  #Prior for left, unaccounted variance
+  tau0=1/sigma02
+  tau~dgamma(a, b)
+  sigma2=1/tau
+}"
+
+```
+
+For the missing value checking, the result shows there is no missing data of the data set. 
+
+The prior model is built by the recent data set (Brand_Latest), for each factor, different group are applied to building the prior model. The betas and the left variance of the model are the parameters to be monitored. Also, the initial values of the model are randomly defined by rnorm and rgamma function. Therfore, the dnorm function is used to find the likelihood of the model and the dgamma function is used to find the left variance of the model.
+
+
+## Setting up the model
+
+```{r}
+set.seed(12345)
+n <- nrow(data)
+mu0=0; sigma02=1000; a=0.1; b=0.1
+data1_jags = list(y = data$log.latest_price, 
+                  branad = data$brand,
+                  ram_gb = data$ram_gb,
+                  ssd = data$ssd, hdd = data$hdd, n=n,
+                  mu0=mu0,sigma02=sigma02,a=a,b=b)
+num.chains <- 1
+# Run JAGS  
+mod1 <-jags.model(file=textConnection(mod1_string), 
+                       data = data1_jags, 
+                       n.chains = num.chains)
+
+```
+
+Four independent Markov Chains are set up respectively for brand, ram_gb, hdd, ssd variables. And each of the chain obtains the staring from the random values that produced by rnorm and rgarmma.
+
+
+
+## Run the MCMC sampler
+
+```{r}
+#burn-in
+update(mod1, 8000)
+
+mod1_sim <- coda.samples(model = mod1, 
+                         variable.names = c("beta0",
+                                            "beta.brand[1]",
+                                            "beta.brand[n2]",
+                                            "beta.brand[3]",
+                                            "beta.brand[4]",
+                                            "beta.brand[5]",
+                                            "beta.brand[6]",
+                                            "beta.brand[7]",
+                                            "beta.brand[8]",
+                                            "beta.brand[9]",
+                                            "beta.brand[10]",
+                                            "beta.brand[11]",
+                                            "beta.brand[12]",
+                                            "beta.brand[13]",
+                                            "beta.brand[14]",
+                                            "beta.brand[15]",
+                                            "beta.brand[16]",
+                                            "beta.brand[17]",
+                                            "beta.brand[18]",
+                                            "beta.brand[19]",
+                                            
+                                            "beta.ram_gb[1]",
+                                            "beta.ram_gb[2]",
+                                            "beta.ram_gb[3]",
+                                            "beta.ram_gb[4]",
+                                            "beta.ssd[1]",
+                                            "beta.ssd[2]",
+                                            "beta.ssd[3]",
+                                            "beta.ssd[4]",
+                                            "beta.ssd[5]",
+                                            "beta.ssd[6]",
+                                            "beta.ssd[7]",
+                                            "beta.ssd[8]",
+                                            "beta.hdd[1]",
+                                            "beta.hdd[2]",
+                                            "beta.hdd[3]",
+                                            "beta.hdd[4]"),
+                         n.iter = 15000)
+#Combine multiple chains
+#mod1_csim = do.call(rbind, mod1_sim)
+```
+
+At this step, we specified a burn-in period of 8000. That we decided to build the model after the 8000th period. The material we looked up, indicating 1000 iterations are great enough to build the posterior distribution, yet, we decided to increase the period and find a more reliable posterior model. 
+
+Then the n.iter suggesting each chain is run 15000 times, in the end, these chain are combining into a posterior model for the data set. 
+
+
+## MCMC Diagnostics
+
+```{r}
+par("mar")
+par(mar=c(1,1,1,1))
+
+plot(mod1_sim)
+autocorr.diag(mod1_sim)
+autocorr.plot(mod1_sim)
+effectiveSize(mod1_sim)
+summary(mod1_sim)
+summary(mod_0)
+```
+
+The plots of MCMC, we are expecting equally distributed autocorrelation for each group of factors. Most of the groups are showing great trace when viewing the plots. For the autocorr-plots, we tried to look for the plot that having correlated pathway. If the group does have a path, it is statistically significant.
+
+For example, the beta.ram_gb variable, the p-value for beta.ram_gb[2] is 0.582172 and have the plot only having only two bars. Next, the p-value of beta.ram_gb[3] and beta.ram_gb[4] are less than 2e-16 and 8.65e-13 respectively which is significant and shows a path on the plots.
+
+For the Quantiles for each variable are looking for the group that are not passing 0 in the interval.
+
+
+
+## Residual diagnostics
+
+```{r}
+
+#Design matrix; the n 1's get multiplied by the intercept afterwards
+X = data.frame(hdd=data1_jags$hdd,
+               ram_gb=data1_jags$ram_gb,
+               ssd=data1_jags$ssd)
+X <- X %>% 
+  dummy_cols(select_columns = c("hdd", "ram_gb", "ssd")) %>% 
+  select(-c(hdd, ram_gb, ssd)) %>% 
+  bind_cols(intercept=rep(1.0, data1_jags$n))
+head(X)
+pm_params1 = matrix(summary(mod1_sim)$statistics[,1], 
+                    nrow=17)#posterior mean
+
+#vector of predicted values from the model
+yhat1 <- as.matrix(X) %*% pm_params1
+
+#Calculate residuals
+resid1 <- data1_jags$y - yhat1
+
+#Check independence
+plot(resid1)
+
+#Check linearity
+plot(yhat1, resid1)
+
+#Check normality
+qqnorm(resid1)
+```
+
+The first plot shows the data in the data set are mostly independent that the data are not having a all together path. The second plot is checking the linearity of the data set and the data set is consider to be a nonlinear model. The last plot it showing the normality and it indicates the data set is normally distributed. There are still few outliers when viewing the plots, it is not affecting the outcome too much. Thus, the model is fitted well and the outcome is not over estimated. 
+
+
+
+```{r}
+jmod = jags.model(file = Brand_Latest.xlsx, data = Brand_Latest, n.chains = num.chains, inits = inits, n.adapt = 15000)
+samples = jags.samples(jmod, c("beta0",
+                                            "beta.brand[1]",
+                                            "beta.brand[n2]",
+                                            "beta.brand[3]",
+                                            "beta.brand[4]",
+                                            "beta.brand[5]",
+                                            "beta.brand[6]",
+                                            "beta.brand[7]",
+                                            "beta.brand[8]",
+                                            "beta.brand[9]",
+                                            "beta.brand[10]",
+                                            "beta.brand[11]",
+                                            "beta.brand[12]",
+                                            "beta.brand[13]",
+                                            "beta.brand[14]",
+                                            "beta.brand[15]",
+                                            "beta.brand[16]",
+                                            "beta.brand[17]",
+                                            "beta.brand[18]",
+                                            "beta.brand[19]"), length(df$log.latest_price))
+
+
+```
+
+
+## Conclusions
+
+Viewing the outcome of the analysis, it indicates the hdd, ssd and ram_gb factors are significantly affect the price. As for the brand factor, different brand is affecting differently to the price. While the Bayesian regression requires us to find the prior and posterior distribution, the model is reliable by measuring the likelihood and the prior parameters. 
+ 
+
+
+
+
+
+

@@ -1,0 +1,210 @@
+---
+title: "MCMC_withoutBrand"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(readxl)
+library(ggplot2)
+library(tidyverse)
+library(coda)
+library(rjags)
+library(fastDummies)
+```
+
+## Introduction
+
+```{r}
+ram_price <- read_excel("ram_price.xlsx")
+head(ram_price)
+```
+
+
+## Convert the dataframe into numeric
+
+```{r}
+ram_price$ram_gb <- as.factor(ram_price$ram_gb)
+ram_price$ssd <- as.factor(ram_price$ssd)
+ram_price$hdd <- as.factor(ram_price$hdd)
+ram_price$log.latest_price <- log(ram_price$latest_price)
+sapply(ram_price, class) 
+head(ram_price)
+```
+
+## Exploring the data
+
+```{r}
+str(ram_price)
+
+plot(ram_price)
+
+ggplot(ram_price, aes(x=ram_gb)) +
+  geom_bar()
+ggplot(ram_price, aes(x=ssd)) +
+  geom_bar()
+ggplot(ram_price, aes(x=hdd)) +
+  geom_bar()
+
+ggplot(ram_price, aes(x=latest_price)) +
+  geom_histogram(bins = 50)
+ggplot(ram_price, aes(x=log.latest_price)) +
+  geom_histogram(bins = 50)
+
+```
+
+## Running an ordinary lineary regression
+
+```{r}
+data <- ram_price %>% select(-c(latest_price))
+mod_0 <- lm(log.latest_price ~. , data = data)
+summary(mod_0)
+```
+
+
+## Specifying the Bayesian model
+
+```{r}
+#check if there is missing value
+any(is.na(ram_price))
+
+mod1_string <- "model {
+  # prior 
+  beta0 ~ dnorm(mu0,tau0) 
+  beta.ram_gb[1] <- 0
+  beta.ram_gb[2] ~ dnorm(mu0,tau0)
+  beta.ram_gb[3] ~ dnorm(mu0,tau0)
+  beta.ram_gb[4] ~ dnorm(mu0,tau0)
+  beta.ssd[1] <- 0
+  beta.ssd[2] ~ dnorm(mu0,tau0)
+  beta.ssd[3] ~ dnorm(mu0,tau0)
+  beta.ssd[4] ~ dnorm(mu0,tau0)
+  beta.ssd[5] ~ dnorm(mu0,tau0)
+  beta.ssd[6] ~ dnorm(mu0,tau0)
+  beta.ssd[7] ~ dnorm(mu0,tau0)
+  beta.ssd[8] ~ dnorm(mu0,tau0)
+  beta.hdd[1] <- 0
+  beta.hdd[2] ~ dnorm(mu0,tau0)
+  beta.hdd[3] ~ dnorm(mu0,tau0)
+  beta.hdd[4] ~ dnorm(mu0,tau0)
+  
+  for(i in 1:n){
+    #Likelihood
+    y[i] ~ dnorm(mu[i], tau)
+    mu[i] = beta0+ beta.ram_gb[ram_gb[i]] + 
+    beta.ssd[ssd[i]] + beta.hdd[hdd[i]]
+  }            
+  #Prior for left, unaccounted variance
+  tau0=1/sigma02
+  tau~dgamma(a, b)
+  sigma2=1/tau
+}"
+
+```
+
+
+## Setting up the model
+
+```{r}
+set.seed(12345)
+n <- nrow(data)
+mu0=0; sigma02=1000; a=0.1; b=0.1
+data1_jags = list(y = data$log.latest_price, 
+                  ram_gb = data$ram_gb,
+                  ssd = data$ssd, hdd = data$hdd, n=n,
+                  mu0=mu0,sigma02=sigma02,a=a,b=b)
+num.chains <- 1
+# Run JAGS  
+mod1 <-jags.model(file=textConnection(mod1_string), 
+                       data = data1_jags, 
+                       n.chains = num.chains)
+
+#parameters to observe
+#params1 = c("b", "sig")
+#initial values
+#inits1 = function(){
+#    inits = list("b" = rnorm(2, mean = 0.0, sd = 100.0), "prec" = rgamma(1, shape = 1.0, rate = 1.0))
+#}
+#Setting up three seperate chains, with different starting values for each chain
+#mod1 <- jags.model(textConnection(mod1_string), data = data1_jags, inits = inits1, n.chains = 3)
+```
+
+## Run the MCMC sampler
+
+```{r}
+#burn-in
+update(mod1, 8000)
+
+mod1_sim <- coda.samples(model = mod1, 
+                         variable.names = c("beta0",
+                                            "beta.ram_gb[1]",
+                                            "beta.ram_gb[2]",
+                                            "beta.ram_gb[3]",
+                                            "beta.ram_gb[4]",
+                                            "beta.ssd[1]",
+                                            "beta.ssd[2]",
+                                            "beta.ssd[3]",
+                                            "beta.ssd[4]",
+                                            "beta.ssd[5]",
+                                            "beta.ssd[6]",
+                                            "beta.ssd[7]",
+                                            "beta.ssd[8]",
+                                            "beta.hdd[1]",
+                                            "beta.hdd[2]",
+                                            "beta.hdd[3]",
+                                            "beta.hdd[4]"),
+                         n.iter = 15000)
+#Combine multiple chains
+#mod1_csim = do.call(rbind, mod1_sim)
+```
+
+## MCMC Diagnostics
+
+```{r}
+par("mar")
+par(mar=c(1,1,1,1))
+
+plot(mod1_sim)
+autocorr.diag(mod1_sim)
+autocorr.plot(mod1_sim)
+effectiveSize(mod1_sim)
+summary(mod1_sim)
+summary(mod_0)
+```
+
+## Residual diagnostics
+
+```{r}
+#Design matrix; the n 1's get multiplied by the intercept afterwards
+X = data.frame(hdd=data1_jags$hdd,
+               ram_gb=data1_jags$ram_gb,
+               ssd=data1_jags$ssd)
+X <- X %>% 
+  dummy_cols(select_columns = c("hdd", "ram_gb", "ssd")) %>% 
+  select(-c(hdd, ram_gb, ssd)) %>% 
+  bind_cols(intercept=rep(1.0, data1_jags$n))
+head(X)
+pm_params1 = matrix(summary(mod1_sim)$statistics[,1], 
+                    nrow=17)#posterior mean
+#vector of predicted values from the model
+yhat1 <- as.matrix(X) %*% pm_params1
+#Calculate residuals
+resid1 <- data1_jags$y - yhat1
+
+#Check independence
+plot(resid1)
+
+#Check linearity
+plot(yhat1, resid1)
+
+#Check normality
+qqnorm(resid1)
+```
+
+
+
+
+
+
