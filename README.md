@@ -32,6 +32,6 @@ Some personal interests of mine
 - Content exploration on YouTube, to challenge my own perspectives or simply learn about something new
 
 ## Contact Me
-**School Email:** Andrew.Otis@du.edu
+**Email:** anot5690@colorado.edu
 
 **LinkedIn:** [Andrew J. Otis](https://www.linkedin.com/in/andrew-james-otis/)
