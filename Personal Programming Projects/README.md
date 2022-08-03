@@ -5,7 +5,7 @@ Python Projects
 3. [Text Adventure Game](https://github.com/JAMPS657/Personal_Projects/tree/main/Personal%20Programming%20Projects/Simple%20Text%20Adventure%20Game)
 
 R Projects
-1. A Predictive Model for Laptop Market Price in Relation to Market Specifications
+1. [A Predictive Model for Laptop Market Price in Relation to Market Specifications](https://github.com/JAMPS657/Personal_Projects/tree/main/Personal%20Programming%20Projects/A%20Predictive%20Model%20for%20Laptop%20Market%20Price)
 2. [Classification of Job Type Based on Applicant Response to Job Boards](https://github.com/JAMPS657/Personal_Projects/tree/main/Personal%20Programming%20Projects/LCA) 
 
 ## Contact Me
