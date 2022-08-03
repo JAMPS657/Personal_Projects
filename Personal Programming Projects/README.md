@@ -9,6 +9,6 @@ R Projects
 2. [Classification of Job Type Based on Applicant Response to Job Boards](https://github.com/JAMPS657/Personal_Projects/tree/main/Personal%20Programming%20Projects/LCA) 
 
 ## Contact Me
-**Email:** Andrew.Otis@du.edu
+**Email:** anot5690@colorado.edu
 
 **LinkedIn:** [Andrew J. Otis](https://www.linkedin.com/in/andrew-james-otis/)
