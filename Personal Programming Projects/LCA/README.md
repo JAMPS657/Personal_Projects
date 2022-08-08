@@ -6,6 +6,8 @@ Project Selection [here](https://github.com/JAMPS657/Personal_Projects/tree/main
 
 PowerPoint Presentation [here](https://github.com/JAMPS657/Personal_Projects/blob/main/Personal%20Programming%20Projects/LCA/PPT_presentation/Latent_Class_Analysis_Presentation(Carol%20and%20Andrew).pdf)
 
+Report [here](https://github.com/JAMPS657/Personal_Projects/blob/main/Personal%20Programming%20Projects/LCA/Report_LCA.pdf)
+
 ## Summary
 Our group utilizes Latent Class Analysis(LCA) as a statistical model to determine if distinct unobservable classes exist within a dataset utilized in a study by Bertrand and Mullainathan(2004). 
 LCA is model in which individuals can be classified into mutually exclusive and exhaustive events known as latent classes, based on their pattern of response and measured with categorical variables. 
