@@ -7,6 +7,8 @@ You can access them via the following link,
 
 [Programming Projects](https://github.com/JAMPS657/Personal_Projects/tree/main/Personal%20Programming%20Projects)
 
+[Research Projects](https://github.com/JAMPS657/Personal_Projects/tree/main/Research)
+
 ## About Me
 
 -----
