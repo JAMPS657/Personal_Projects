@@ -6,6 +6,8 @@ Project Selection [here](https://github.com/JAMPS657/Personal_Projects/tree/main
 
 PowerPoint Presentation [here](https://github.com/JAMPS657/Personal_Projects/blob/main/Personal%20Programming%20Projects/A%20Predictive%20Model%20for%20Laptop%20Market%20Price/PPT_presentation/Bayes_Regression_Presentation.pdf)
 
+Paper [here](https://github.com/JAMPS657/Personal_Projects/blob/main/Personal%20Programming%20Projects/A%20Predictive%20Model%20for%20Laptop%20Market%20Price/Bayesian%20Regression.pdf)
+
 ## Executive Summary
 There exist two established frameworks regarding the field of statistics, Frequentist and Bayesian. utilizing the Bayesian framework, which results in a distribution. As opposed to the Frequentist framework, where a point estimate for variable of interest as a result. Under the Bayesian framework and with data of laptop prices in relation to their specifications, what is the probability of a laptop’s market price, given its specifications? Specifically, the model of linear regression under a Bayesian perspective is utilized. Two similar Bayesian models are constructed and explored, one with all relevant predictors and another with all the relevant predictors; excluding brand factors.
 
