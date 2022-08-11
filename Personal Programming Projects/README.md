@@ -12,6 +12,9 @@ R Projects
 1. [Bayesian Model to Predict Laptop Market Price in Relation to Market Specifications](https://github.com/JAMPS657/Personal_Projects/tree/main/Personal%20Programming%20Projects/A%20Predictive%20Model%20for%20Laptop%20Market%20Price)
 2. [Clustering of Job Skillset from Employer Advertisements in Chicago](https://github.com/JAMPS657/Personal_Projects/tree/main/Personal%20Programming%20Projects/LCA) 
 
+SQL Projects
+1. [Basics of Database Query: Data Definition and Data Manipulation Language](https://github.com/JAMPS657/Personal_Projects/tree/main/Personal%20Programming%20Projects/Basics%20of%20Database%20Query)
+
 ## Contact Me
 **Email:** anot5690@colorado.edu
 
