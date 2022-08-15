@@ -10,9 +10,10 @@ Python Projects
 
 R Projects
 1. [Bayesian Model to Predict Laptop Market Price in Relation to Market Specifications](https://github.com/JAMPS657/Personal_Projects/tree/main/Personal%20Programming%20Projects/A%20Predictive%20Model%20for%20Laptop%20Market%20Price)
-2. [Clustering of Job Skillset from Employer Advertisements in Chicago](https://github.com/JAMPS657/Personal_Projects/tree/main/Personal%20Programming%20Projects/LCA) 
-3. [Analysis of Various Microbial Communities](https://github.com/JAMPS657/Personal_Projects/tree/main/Personal%20Programming%20Projects/BioDiversity%20Analysis)
-4. [Forwards Feature Construction and Data Lifecycle Management](https://github.com/JAMPS657/Personal_Projects/tree/main/Personal%20Programming%20Projects/Forwards%20Feature%20Construction)
+2. [Logistic Classification of Heart Disease with Machine Learning](https://github.com/JAMPS657/Personal_Projects/tree/main/Personal%20Programming%20Projects/Logistic%20Classification%20of%20Heat%20Disease)
+3. [Clustering of Job Skillset from Employer Advertisements in Chicago](https://github.com/JAMPS657/Personal_Projects/tree/main/Personal%20Programming%20Projects/LCA) 
+4. [Analysis of Various Microbial Communities](https://github.com/JAMPS657/Personal_Projects/tree/main/Personal%20Programming%20Projects/BioDiversity%20Analysis)
+5. [Forwards Feature Construction and Data Lifecycle Management](https://github.com/JAMPS657/Personal_Projects/tree/main/Personal%20Programming%20Projects/Forwards%20Feature%20Construction)
 
 SQL Projects
 1. [Basics of Database Query: Data Definition and Data Manipulation Language](https://github.com/JAMPS657/Personal_Projects/tree/main/Personal%20Programming%20Projects/Basics%20of%20Database%20Query)
