@@ -1,0 +1,481 @@
+---
+title: "Feature Selection and Data Life Cycle Management"
+author: "Andrew J. Otis"
+date: '`r format(Sys.Date(), "%B %d, %Y")`'
+output:
+  word_document: default
+  pdf_document: default
+  html_document:
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(GGally)
+library(ggpubr)
+library(lmtest)
+library(MASS)
+library(ResourceSelection)
+library(DescTools)
+library(AER)
+options(dplyr.summarise.inform = FALSE)
+library(foreign)
+library(caret)
+library(InformationValue)
+library(ISLR)
+```
+
+## Introduction
+
+Here, we will explore feature selection, specifically, Forward Feature Construction 
+
+### Q1
+
+The raw data is the “Pew Research Center’s American Trends Panel” 
+Wave 69 Field dates: June 16 – June 22, 2020
+Topics: Coronavirus tracking, politics, 2020 Census
+data and questionnaire downloaded 3/4/2021 from https://www.pewresearch.org/politics/dataset/american-trends-panel-wave-69/
+
+The codebook was downloaded 3/5/2021 from https://www.pewresearch.org/wp-content/uploads/2018/05/Codebook-and-instructions-for-working-with-ATP-data.pdf 
+
+The data set "dat.ind" consists of responses from self-identified "Independent" respondents who provided a response to "VOTEGEN_W69" and "F_IDEO", and provided a response other than "Refused" to "F_INCOME"
+
+### 1.a.
+
+The code below converts the responses to the "NATPROBS" variables to their numeric values, setting the "Refused" response to "NA". The variable "biden" is defined. Any case with an undefined value in any of the "NATPROBS" variables is dropped.
+
+The code below also splits the data into training and validate sets, preserving proportion of "biden".
+
+Logistic regression model of "biden" on "F_IDEO", "F_INCOME", and the variables with the prefix "NATPROBS" on the training data, dat.train.
+
+Then testing the model hypothesis for this model using "hoslem.test" from the "ResourceSelection" package. What do you conclude about the use of logistic regression from this result?
+
+```{r}
+
+load("dat_independents.RData")
+dat.ind$biden<-dat.ind$VOTEGEN_W69=="Joe Biden, the Democrat"
+dat.ind$income<-as.numeric(dat.ind$F_INCOME)
+numeric.make<-function(x){
+  x<-as.numeric(x)
+  x[x==5]<-NA
+   return(x)
+}
+dat.ind<-dat.ind%>%mutate(across(starts_with("NATPROB"),numeric.make))
+
+nam<-names(dat.ind)[str_detect(names(dat.ind),"NATPROB")]
+
+dat.ind<-dplyr::select(dat.ind,c(QKEY,biden,F_IDEO,F_INCOME,income,
+                          NATPROBS_a_W69:NATPROBS_j_W69))
+
+dat.ind<-dat.ind[complete.cases(dat.ind),]
+
+
+# Train-validate
+set.seed(23456)
+dat.train<-dat.ind%>%
+  group_by(F_IDEO,biden)%>%
+  slice_sample(prop=.7)%>%ungroup()
+
+dat.valid<-filter(dat.ind,!QKEY %in% dat.train$QKEY)
+
+```
+
+
+```{r}
+
+fmla<-str_c("biden~F_IDEO+F_INCOME+",str_c(nam,collapse="+"))
+m<-glm(fmla,data=dat.train,family="binomial")
+
+
+summary(m)
+# Based on the results of the logistic regression, we can observe the following variables that have a significant effect on the outcome variable (i.e. p-value < 0.05, the standard accepted error).
+# F_IDEOLiberal 
+# F_INCOME$10,000 to less than $20,000, 
+# F_INCOME$20,000 to less than $30,000, 
+# F_INCOME$40,000 to less than $50,000, 
+# F_INCOME$50,000 to less than $75,000, 
+# F_INCOME$75,000 to less than $100,000, 
+# F_INCOME$100,000 to less than $150,000,
+# F_INCOME$150,000 or more, 
+# NATPROBS_a_W69, 
+# NATPROBS_g_W69, 
+# NATPROBS_i_W69 
+
+# Each one-unit change in the following variables will INCREASE the log odds for the outcome variable "biden". Specific quantities as part of the "estimate" column in the model summary.
+# F_INCOME$10,000 to less than $20,000, 
+# F_INCOME$20,000 to less than $30,000 
+# F_INCOME$40,000 to less than $50,000, 
+# F_INCOME$50,000 to less than $75,000, 
+# F_INCOME$75,000 to less than $100,000, 
+# F_INCOME$100,000 to less than $150,000,
+# F_INCOME$150,000 or more 
+
+# Each one-unit change in the following variables will DECREASE the log odds for the outcome variable "biden". Specific quantities as part of the "estimate" column in the model summary.
+# NATPROBS_a_W69, 
+# NATPROBS_g_W69, 
+# NATPROBS_i_W69 
+
+hoslem.test(dat.train$biden, fitted(m), g = 10)
+# The resulting p-value = 0.2367 > 0.05, the standard accepted error. Therefore there is NOT ENOUGH evidence to suggest that the model "m" is poorly fitted. Thus interpretation/predictions of the model's results can be considered VALID.
+```
+
+### 1.b.
+
+Compute and display the confusion matrix, the accuracy, the precision, F1 on the training data and the McFadden Pseudo $R^2$ for this model.
+
+## McFadden Pseudo $R^2$
+
+```{r}
+
+PseudoR2(m)
+
+```
+
+## Confusion matrix
+
+```{r }
+
+# Code relevant to our model test
+prob<-predict(m,dat.train,type="response")
+pred<-prob>=.5
+print("Confusion Matrix")
+table(dat.train$biden,pred)
+
+```
+
+## Accuracy
+
+```{r }
+
+# Accuracy is the proportion correct.
+fitted <- pred*1
+accuracy <- mean(dat.train$biden==fitted)
+print("Accuracy")
+accuracy
+
+```
+
+## Recall
+
+```{r}
+
+recall<-sum(dat.train$biden==1 & fitted==1)/sum(dat.train$biden==1)
+print("Recall")
+recall
+
+```
+
+## Precision & F1
+
+```{r }
+# Precision is the proportion of true positives to positives.
+precision<-sum(dat.train$biden==1 & fitted==1)/sum(fitted==1)
+print("Precision")
+precision
+
+
+# F1 Score = 2(Recall)(Precision)/ (Recall + Precision)
+f1<-2*recall*precision/(precision+recall)
+print("F1")
+f1
+
+```
+
+
+### 1.c.
+
+Compute and display the confusion matrix, the accuracy, the precision, and F1 when the model above
+is used to predict the validation outcome values.
+
+## Confusion matrix
+
+```{r}
+
+# Code relevant to our model test
+prob<-predict(m,dat.valid,type="response")
+pred<-prob>=.5
+print("Confusion Matrix")
+table(dat.valid$biden,pred)
+```
+
+## Accuracy
+
+```{r}
+
+# Accuracy is the proportion correct.
+fitted <- pred*1
+accuracy <- mean(dat.valid$biden==fitted)
+print("Accuracy")
+accuracy
+
+```
+
+## Recall
+
+```{r}
+
+recall<-sum(dat.valid$biden==1 & fitted==1)/sum(dat.valid$biden==1)
+print("Recall")
+recall
+
+```
+
+## Precision & F1
+
+```{r}
+# Precision is the proportion of true positives to positives.
+precision<-sum(dat.valid$biden==1 & fitted==1)/sum(fitted==1)
+print("Precision")
+precision
+
+
+# F1 Score = 2(Recall)(Precision)/ (Recall + Precision)
+f1<-2*recall*precision/(precision+recall)
+print("F1")
+f1
+
+```
+
+
+### 1.d.
+
+Fit the forward model by AIC on the training data and the full data. Is there evidence that the smaller data set has biased the forward fit toward a simpler model?
+
+## Full model 
+```{r}
+
+# Full model
+full.model <- glm(biden ~., data = dat.train, family = binomial)
+summary(full.model)
+
+```
+
+## Forward Model
+```{r}
+
+nothing.model <- glm(biden ~ 1, data = dat.train, family = binomial)
+
+# fit the forward model by AIC on the training data and the full data
+forward.model <- step(nothing.model, scope = list(lower=formula(nothing.model), upper = formula(full.model)) ,direction = "forward")
+
+summary(forward.model)
+
+```
+
+```{r}
+# I've interpreted full model as the outcome variable and ALL other independent variables and the simpler model as the model with outcome variable and SELECT independent variables
+
+formula(full.model)
+print("Full Model AIC = 681.45")
+
+formula(forward.model)
+print("Forward AIC = 666.85")
+
+# Since Lower AIC values are indicative of a better model fit, and the simpler model being the model with less independent variables when compared to the full model. We can conclude that there IS EVIDENCE the forward model IS INDEED biased toward a simpler model.
+
+```
+
+
+### 1.e.
+
+The goal of this question is to compare the model in the forward model construction sequence selected on the basis of minimizing the AIC to the model in the forward model construction sequence selected minimize the deviance on the validation set.
+
+The code below generates the full sequence of forward models by setting the argument "k" equal to 0, thereby removing the penalty for additional variables.
+
+```{r}
+nam<-names(dat.ind)[str_detect(names(dat.ind),"NATPROB")]
+fmla<-str_c("biden~F_IDEO+F_INCOME+",str_c(nam,collapse="+"))
+m.1<-glm(biden~1,data=dat.train,family="binomial") 
+m.forward.k0<-step(m.1,scope=fmla,direction="forward",k=0,trace=0)
+# The sequence in which variables are added
+vars.add<-m.forward.k0$anova[,1]
+vars.add<-str_replace(vars.add,"\\+ ","")
+vars.add[1]<-1 # Intercept only
+```
+
+The code below makes a vector of the formulas corresponding to the variables used at each stage in the forward model construction.
+
+```{r}
+# function to collect the first "i" variables added during
+# forward selection and
+# create a formula for "chd" in terms of the remaining
+# variables.
+
+fmla.add.fnc<-function(i,vars.add){
+  vars.in<-vars.add[1:i]
+  return(as.formula(str_c("biden~",str_c(vars.in,collapse="+"))))
+}
+
+# Apply "fmla.add.fnc" to each value of "i". This
+# gives the formulas for the models generated by forward
+# selection.
+
+fmlas<-apply(matrix(1:length(vars.add),ncol=1),1,
+   fmla.add.fnc,vars.add=vars.add)
+
+```
+
+Construct the models on the training data corresponding to this list of formulas and store them in a list.
+
+```{r}
+# Use an anonymous function, defined in place.
+models<-
+  lapply(fmlas,function(x){glm(x,data=dat.train,family="binomial")})
+
+```
+
+
+Implement a deviance function to calculate the deviance of a model on a validation set.
+
+```{r}
+valid.dev<-function(m.pred, dat.this){
+  pred.m<-predict(m.pred,dat.this, type="response")
+-2*sum(dat.this$biden*log(pred.m)+(1-dat.this$biden)*log(1-pred.m))
+}
+
+```
+
+Calculate the deviance for on the validation set when probabilities are predicted according to the coefficients for each model in the list. 
+
+```{r}
+
+dev.valid<-sapply(models,valid.dev,dat.this=dat.valid)
+
+```
+
+Visualize the results.
+
+```{r}
+devs<-data.frame(size=1:length(dev.valid),
+validation.deviance=dev.valid)
+
+ggplot(data=devs, aes(x=size,y=validation.deviance))+geom_point()
+```
+
+Finally, is the model selected by validation deviance the same as the one selected by AIC?
+
+```{r}
+# forward Model
+# biden ~ NATPROBS_i_W69 + NATPROBS_g_W69 + NATPROBS_b_W69 + income + 
+  #       NATPROBS_a_W69 + F_IDEO + NATPROBS_e_W69
+
+formula(forward.model)
+
+
+
+print("Model Selection based on validation deviance")
+dev.valid
+
+min.dev <- which(dev.valid==min(dev.valid))
+names(models[[min.dev]]$coefficients)
+
+# Validation Deviance
+# biden ~  NATPROBS_i_W69 +NATPROBS_g_W69 + F_INCOME$10,000 to less than $20,000 + F_INCOME$20,000 to less than $30,000 + F_INCOME$30,000 to less than $40,000 + F_INCOME$40,000 to less than $50,000 + "F_INCOME$50,000 to less than $75,000"
+
+# Notice, validation deviance is at its lowest (i.e. best model) by the 8th variable.
+
+```
+
+```{r}
+
+print("Model based of forward AIC")
+formula(forward.model)
+print("Forward AIC = 666.85")
+
+print("Model based on validation deviance")
+print("biden ~  NATPROBS_i_W69+ NATPROBS_g_W69+ F_INCOME$10,000 to less than $20,000+ F_INCOME$20,000 to less than $30,000+ F_INCOME$30,000 to less than $40,000+ F_INCOME$40,000 to less than $50,000")
+print("Forward validation deviance = 360.7268")
+
+# Based on these results, we can conclude that the model selected based on AIC is different than the model selected based on validation deviance.
+
+```
+
+
+### 1.f.
+
+Fit the forward model selected by AIC, the forward model selected to minimize the deviance on the validation set, and the full model, all on the full data set. Using "lrtest" from the "lmtest" library, which models improve significantly on the smaller model(s)? Can you relate this to the validation deviances plotted above?
+
+
+```{r}
+lrtest(models[[min.dev]], m)
+print("lrtest p-value = 0.9002")
+
+# The resulting p-value = 0.9002 > 0.05, the standard accepted error.  
+
+# Therefore, we can conclude that the model for forward selection based on validation deviances is a significant improvement over the simpler model from the forward selection based on AIC. This is supported by the model based on validation deviances having a smaller AIC value (i.e. indication of better model fit).  
+
+```
+
+## Q2
+
+In logistic regression, if a categorical predictor has a category such that all of the values of the outcome variable are the same for that category, this is an example of *quasicomplete separation*. The questions below explore consequences of quasicomplete separation.
+
+### 2.a.
+
+Note that for the model below, the category "x" is not a statistically significant predictor of "y", despite the fact that for all observations with "x" equal to "a", the value of "y" is $1$, while only 30 out of 50 of the values of "y" are $1$ for "x" equal to "b". What values do the predicted probabilities take on? Plot the predicted probabilities of "y" and the observed values of "y" in the model below using the x-axis to represent the value of "ind" and the y-axis to represent both the value and the fitted probability of the outcome at the corresponding index. Do the fitted probabilities appear to correspond well to the probabilities in each category in the data?
+
+```{r}
+
+ind<-1:100
+x<-rep(c("a=0","b=1"),each=50)
+y<-c(rep(1,50),rep(1,30),rep(0,20))
+m.q<-glm(y~x,family="binomial")
+print("Predicted Probabilities")
+unique(predict(m.q,type="response"))
+summary(m.q)
+
+dat.q<-data.frame(ind=ind,x=x,y=y,y.prob=predict(m.q,type="response"))
+dat.q %>%
+pivot_longer(!c(ind, x), names_to = "response", values_to = "values") %>%
+ggplot(aes(x=ind, y= values, group=response))+
+geom_line(aes(color=response))
+
+table(x,y)
+
+```
+
+
+```{r}
+
+# with the parameter estimate for xb being really large (>15), we suspect that there is a problem of complete or quasi-complete separation. 
+
+# The standard errors for the parameter estimates are way too large. This usually indicates a convergence issue or some degree of data separation.
+
+# Fitted probabilities fit the probabilities in each categorical data fairly well until ind = 50. At this point the probability lines deviate from one another.
+
+```
+
+
+### 2.b.
+
+Repeat the plotting for the data below, in which one of the observations in category "a" has been changed to $0$. Is the category "x" is a statistically significant predictor of "y"? Does quasicomplete separation present a challenge to interpretation of significance of predictors? 
+
+```{r}
+x<-rep(c("a=0","b=1"),each=50)
+y<-c(rep(1,49),0,rep(1,30),rep(0,20))
+m.ok<-glm(y~x,family="binomial")
+print("Predicted Probabilities")
+unique(predict(m.ok,type="response"))
+
+summary(m.ok)
+
+dat.q<-data.frame(ind=ind,x=x,y=y,y.prob=predict(m.ok,type="response"))
+dat.q %>%
+pivot_longer(!c(ind, x), names_to = "response", values_to = "values") %>%
+ggplot(aes(x=ind, y= values, group=response))+
+geom_line(aes(color=response))
+
+table(x,y)
+
+```
+
+```{r}
+
+# Notice that the predictor "xb=1" is a statistically significant predictor of y, supported by p-values < 0.05, the standard accepted error.
+
+# Additionally, parameter estimate and standard error are much lower, free of the separation noticed in the previous part of the problem.
+
+# These drastic differences from a predictor variable going from insignificant to significant demonstrates the degree to which the results are effected by quasi complete separation. Therefore quasicomplete separation DO PRESENT a challenge to interpretation of significance of predictors. 
+
+```
