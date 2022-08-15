@@ -4,7 +4,7 @@ Home page [here](https://github.com/JAMPS657/Personal_Projects)
 Project Selection [here](https://github.com/JAMPS657/Personal_Projects/tree/main/Personal%20Programming%20Projects)
 
 # Summary
-In this demonstration, I create, populate, and query a database. Specifically, I am using data from my [Exploration of Olympics Data](https://github.com/JAMPS657/Personal_Projects/tree/main/Personal%20Programming%20Projects/Analysis%20of%20Olympics%20Data) project.
+In this demonstration, I create, populate, and query a database. Specifically, I am using data from my [Exploration of Olympics Data](https://github.com/JAMPS657/Personal_Projects/tree/main/Personal%20Programming%20Projects/Analysis%20of%20Olympics%20Data) project. The script was created up using MySQL workbench.
 
 ## Creating a Database
 Using the "CREATE" statement, I create a database called "olympics".
