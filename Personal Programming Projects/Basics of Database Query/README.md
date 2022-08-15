@@ -12,7 +12,7 @@ Using the "CREATE" statement, I create a database called "olympics".
 ![](Images/Creating_a_database.JPG)
 
 ## Creating A Table
-Using the "CREATE" statement, I create a table within the "olympics" database and label it "raw_data". This allows us to populate the database with data.
+Using the "CREATE" statement, I create a table within the "olympics" database and label it "raw_data". This allows us to populate the database (i.e. import data).
 
 ![](Images/Using_and_populating_database.JPG)
 
