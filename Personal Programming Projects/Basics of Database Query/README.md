@@ -1,6 +1,8 @@
 # Index
 Home page [here](https://github.com/JAMPS657/Personal_Projects)
 
+Code [here](https://github.com/JAMPS657/Personal_Projects/blob/main/Personal%20Programming%20Projects/Basics%20of%20Database%20Query/Database_Query.sql)
+
 Project Selection [here](https://github.com/JAMPS657/Personal_Projects/tree/main/Personal%20Programming%20Projects)
 
 # Summary
