@@ -21,7 +21,7 @@ Using the "CREATE" statement, I create a table within the "olympics" database an
 ## Database Query
 Now, with the relevant data uploaded; I use the "SELECT" statement to look at specific portions/columns of the data set. 
 
-The first query is data relevant to the individual athlete. This would be important in identifying relevant stats to the athlete in question (e.g. Weight, Height, etc.)
+The first query is data relevant to the individual athlete. This would be important in identifying relevant stats to the athlete in question (e.g. Weight, Height, etc.). Note that there will be missing values for medals due to the fact that only 3 athletes/teams can plaCe in each event, with a few special cases.
 
 ![](Images/Exploring_database.JPG)
 
