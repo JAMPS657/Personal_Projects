@@ -20,7 +20,7 @@ I'm seeking a professional environment where a well laid strategy sets the found
 
 My education began as an aspiring scientist, majoring in various branches of Chemistry and Biology as an undergraduate at the University of Colorado at Boulder. I eventually had the opportunity to utilize software and programming languages for various experiments.  Fostering that interest in programming and leveraging computing power has led me to where I am today, with a deep well of curiosity and awe at potential opportunities to make a quantifiable impact by generating insight from data.  
 
-I value and appreciate the ability to convey a story through expression, coming in many forms. Whether it's a videogame being an expression of imagination, an anime as a commentary on the historical context of being a man in Japan, or simply sharing an experience as an expression of community.
+I value and appreciate the ability to convey a story through expression, coming in many forms. Whether it's a videogame being an expression of imagination, or simply sharing an experience as an expression of community.
 
 A form of expression I'm passionate about developing would be my skillset as a Data Scientist, which encompasses my strengths on a personal and technical level. 
 
