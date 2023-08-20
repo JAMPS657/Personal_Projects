@@ -17,7 +17,7 @@ My journey in the sciences began majoring in various branches of Chemistry and B
 
 I value and appreciate the ability to convey a story through expression, coming in many forms. Whether it's a videogame being an expression of imagination or simply sharing an experience as an expression of community.
 
-Given my recent graduation, I'm seeking a company with a the data infrastructure to capitalize on my skillset as a Data Scientist. 
+Given my recent graduation, I'm seeking a company with the data infrastructure to capitalize on my skillset as a Data Scientist. 
 
 Some personal interests of mine
 - An on-and-off relationship with guitar and singing
